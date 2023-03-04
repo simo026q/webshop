@@ -1,0 +1,48 @@
+<ul class="list-group list-group-flush" *ngIf="basket.basketProducts.length > 0; else noBasketItems">
+  <li class="list-group-item bg-transparent p-3" *ngFor="let basketProduct of basket.basketProducts">
+    <div class="row g-3">
+      <div class="col-3 d-lg-inline d-none">
+        <img [src]="basketProduct.product.imageUrl ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'" class="img-fluid" alt="...">
+      </div>
+      <div class="col-lg-9 d-flex justify-content-between">
+        <div class="d-flex flex-column">
+          <div class="mb-3">
+            <h6 class="mb-0 lh-1">{{ basketProduct.product.name }}</h6>
+            <p *ngIf="basketProduct.product.variants.length > 1" class="text-muted mb-0">{{ basketProduct.productVariant.name }}</p>
+          </div>
+          <div class="mt-auto d-flex flex-xl-row flex-column gap-1 gap-xl-3 align-items-xl-center">
+            <div class="order-1 order-xl-0">
+              <div class="input-group input-group-sm">
+                <button title="Remove" class="btn btn-light" type="button" (click)="removeProductVariant(basketProduct.productVariant.id)"><i class="bi bi-dash"></i></button>
+                <span class="input-group-text">{{ basketProduct.quantity }}</span>
+                <button title="Add" class="btn btn-light" type="button" (click)="addProductVariant(basketProduct.product, basketProduct.productVariant)"><i class="bi bi-plus"></i></button>
+              </div>
+            </div>
+            <p class="mb-0" *ngIf="basketProduct.quantity <= basketProduct.productVariant.stock; else notInStock"><i class="bi bi-cart-check text-success"></i> In stock</p>
+            <ng-template #notInStock>
+              <p class="text-danger mb-0" title="Not enough in stock!"><i class="bi bi-exclamation-circle"></i></p>
+            </ng-template>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <p class="mb-0 lh-1 text-end">{{ basketProduct.productVariant.sellingPrice * basketProduct.quantity | currency }}</p>
+          <div class="mt-auto d-flex justify-content-end">
+            <button title="Remove" class="btn btn-light btn-sm" type="button" (click)="removeAllProductVariants(basketProduct.productVariant.id)"><i class="bi bi-trash3"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  <li class="list-group-item bg-transparent px-3 py-4">
+    <div class="d-flex justify-content-between">
+      <h6 class="m-0 lh-1">Total</h6>
+      <p class="m-0 lh-1">{{ totalBasketPrice | currency }}</p>
+    </div>
+  </li>
+</ul>
+
+<ng-template #noBasketItems>
+  <div class="alert alert-secondary m-3" role="alert">
+    No items in basket
+  </div>
+</ng-template>

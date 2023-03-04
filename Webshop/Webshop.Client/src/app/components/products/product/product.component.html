@@ -1,0 +1,60 @@
+<div *ngIf="product.id;else NoId" class="container my-5">
+  <div class="row g-5">
+    <div class="col-md-6 col-lg-5 text-center">
+      <a role="button" data-bs-toggle="modal"
+        data-bs-target="#imageModal">
+        <img [src]="product.imageUrl || 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'"
+           class="img-fluid"
+           alt="{{product.name}}">
+      </a>
+    </div>
+    <div class="col">
+      <h1>{{product.name}}</h1>
+      <p class="lead">{{product.description}}</p>
+      <div class="d-flex gap-1 mb-3" *ngIf="product.variants.length > 1">
+        <ng-container *ngFor="let variant of product.variants; let i = index">
+          <input type="radio" class="btn-check" [value]="variant.id" name="{{'prod_' + product.id}}" id="{{'prodVariant_' + variant.id}}" autocomplete="off" [(ngModel)]="variantId" (change)="updateVariant()">
+          <label class="btn btn-sm btn-outline-secondary" for="{{'prodVariant_' + variant.id}}">{{ variant.name ?? i + 1 }}</label>
+        </ng-container>
+      </div>
+      <h4 class="font-weight-bold my-3">{{displayPrice | currency}}</h4>
+      <app-product-stock [stock]="getStock()"/>
+      <div class="row mt-3 g-2">
+        <div class="col-auto">
+          <input type="number" class="form-control" placeholder="Quantity" title="Quantity" (change)="setQuantity()" [(ngModel)]="quantity">
+        </div>
+        <app-product-basket class="col-auto" [product]="product" [productVariant]="selectedVariant" [quantity]="quantity"/>
+      </div>
+    </div>
+  </div>
+  <div class="my-5" *ngIf="selectedVariant?.description">
+    <h5 *ngIf="selectedVariant?.name">{{ selectedVariant?.name }}</h5>
+    <p class="lead">{{selectedVariant?.description}}</p>
+  </div>
+</div>
+
+<ng-template #NoId>
+  <div class="container my-5">
+    <h1 class="my-3">Product id invalid</h1>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="imageModalLabel">{{product.name}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex align-items-center text-center">
+        <img [src]="product.imageUrl || 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'"
+             class="h-100 mx-auto"
+             alt="{{product.name}}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

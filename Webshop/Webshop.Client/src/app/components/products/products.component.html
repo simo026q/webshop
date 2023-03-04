@@ -1,0 +1,28 @@
+<div class="container component-wrapper my-4 d-flex flex-column h-100">
+  <h1 class="text-center mb-5">{{selectedCategory}}</h1>
+  <div class="row mb-5">
+    <div class="col">
+      <select title="Select category" class="form-select" [(ngModel)]="categoryFilter" (change)="applyFilter()">
+        <option *ngFor="let category of categories" [value]="category.id">{{category.id}}</option>
+        <option value="All">All Categories</option>
+      </select>
+    </div>
+    <div class="col">
+      <input [(ngModel)]="searchFilter" type="search" class="form-control" placeholder="Search..."/>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" (click)="applyFilter()" [disabled]="!canApplyFilter()">Search</button>
+    </div>
+  </div>
+  <div *ngIf="products.length > 0; else noProducts" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5 flex-grow-1">
+    <div class="col" *ngFor="let product of products">
+      <app-product-card [product]="product"></app-product-card>
+    </div>
+  </div>
+  <ng-template #noProducts>
+    <div class="alert alert-secondary text-center">
+      No products found
+    </div>
+  </ng-template>
+<app-pagination [totalItems]="totalItems" (sizeChange)="changeSize($event)" (pageChange)="changePage($event)"></app-pagination>
+</div>

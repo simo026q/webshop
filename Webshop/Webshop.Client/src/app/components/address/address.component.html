@@ -1,0 +1,22 @@
+<div class="row g-3">
+  <div class="col-6">
+    <label class="form-label" for="streetName">Street Name</label>
+    <input type="text" name="streetName" id="streetName" class="form-control" placeholder="Street Name" [(ngModel)]="address.streetName" (focusout)="save()">
+  </div>
+  <div class="col-6">
+    <label class="form-label" for="streetNumber">Street Number</label>
+    <input type="text" name="streetNumber" id="streetNumber" class="form-control" placeholder="Street Number" [(ngModel)]="address.streetNumber" (focusout)="save()">
+  </div>
+  <div class="col-6">
+    <label class="form-label" for="city">City</label>
+    <input type="text" name="city" id="city" class="form-control" placeholder="City" [(ngModel)]="address.city" (focusout)="save()">
+  </div>
+  <div class="col-6">
+    <label class="form-label" for="zipcode">Zipcode</label>
+    <input type="text" name="zipcode" id="zipcode" class="form-control" placeholder="Zipcode" [(ngModel)]="address.zipCode" (focusout)="save()">
+  </div>
+  <div class="col-12">
+    <label class="form-label" for="country">Country</label>
+    <input type="text" name="country" id="country" class="form-control" placeholder="Country" [(ngModel)]="address.country" (focusout)="save()">
+  </div>
+</div>

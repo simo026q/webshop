@@ -1,0 +1,27 @@
+<div class="container my-5">
+  <div class="row g-5">
+    <div class="col-md-6 col-lg-7">
+      <h5 class="mb-3">Shipping information</h5>
+      <app-address [address]="address" (addressChange)="address = $event"/>
+    </div>
+    <div class="col-md-6 col-lg-5">
+      <h5 class="mb-3">Order summary</h5>
+      <div class="card">
+        <app-basket-card/>
+
+        <div class="card-body border-top">
+          <div class="d-flex flex-column gap-2" *ngIf="isLoggedIn(); else loginToCheckout">
+            <button type="button" class="btn btn-primary" (click)="checkout()" [disabled]="!canCheckout()">Checkout</button>
+            <p class="mb-0 text-danger" *ngIf="!isValidAddress()"><i class="bi bi-exclamation-circle"></i> The shipping address is not valid!</p>
+            <p class="mb-0 text-danger" *ngIf="!allProductsIsInStock()"><i class="bi bi-exclamation-circle"></i> Some products may not be in stock!</p>
+          </div>
+          <ng-template #loginToCheckout>
+            <div class="d-flex flex-column gap-2">
+              <button type="button" class="btn btn-primary" (click)="login()">Login to checkout</button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

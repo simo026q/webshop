@@ -1,0 +1,157 @@
+<div class="my-4 container d-flex flex-column h-100 component-wrapper">
+  <h2 class="card-title d-flex justify-content-center mb-3">
+    {{product.id ? 'Edit Product' : 'Add Product'}}
+  </h2>
+  <div class="row">
+    <div class="col-md-4 d-flex flex-column gap-3">
+      <img *ngIf="product.imageUrl" [src]="product.imageUrl" class="img-thumbnail mx-auto" alt="Product Image">
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="text" [(ngModel)]="product.imageUrl" class="form-control">
+      </div>
+    </div>
+    <div class="col-md-8 d-flex flex-column gap-3">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input required type="text" class="form-control" id="name" [(ngModel)]="product.name" name="name">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea [(ngModel)]="product.description" class="form-control" id="description" rows="7"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12 d-flex justify-content-sm-between mb-2">
+          <h5>Product Variants</h5>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVariantModal">Add Variant</button>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <ul *ngIf="product.variants.length !== 0" class="list-group">
+              <li class="list-group-item d-flex justify-content-sm-between p-2" *ngFor="let variant of product.variants">
+                <div class="justify-content-sm-start">
+                  <h6 class="mb-0">{{ variant.name }}</h6>
+                  <span class="text-muted">{{ variant.sellingPrice | currency}}</span>
+                </div>
+                <div class="d-flex justify-content-sm-between gap-2">
+                  <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editVariantModal" (click)="editVariant(variant)">Edit</button>
+                  <button class="btn btn-danger" (click)="deleteVariant(variant.id)">Delete</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <h5>Select Categories</h5>
+        <div class="form-check" *ngFor="let category of categories">
+          <input class="form-check-input" type="checkbox" [value]="category.selected" [(ngModel)]="category.selected" name="categoryGroup" >
+          <label class="form-check-label">{{category.id}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex align-self-end">
+    <div class="col-md-12 d-flex justify-content-sm-between gap-3">
+      <button class="btn btn-secondary" routerLink="../../..">Cancel</button>
+      <button class="btn btn-primary" (click)="product.id ? saveProduct() : addProduct()">{{product.id ? 'Save' : 'Add'}}</button>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="addVariantModal" tabindex="-1" aria-labelledby="addVariantModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addVariantModalLabel">Add Variant</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="form-group">
+            <label for="variantName">Variant Name</label>
+            <input required [(ngModel)]="newVariant.name" type="text" class="form-control" id="variantName" placeholder="Enter variant name">
+          </div>
+          <div class="form-group">
+            <label for="variantDescription">Description</label>
+            <textarea [(ngModel)]="newVariant.description" class="form-control" id="variantDescription" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="stock">Stock</label>
+            <input required [(ngModel)]="newVariant.stock" min="0" type="number" class="form-control" id="stock" placeholder="Enter variant stock">
+          </div>
+          <div class="form-group">
+            <label for="sellingPrice">Selling Price</label>
+            <input required type="number"
+                   min="0"
+                   [(ngModel)]="newVariant.sellingPrice"
+                   class="form-control"
+                   id="sellingPrice"
+                   placeholder="Enter variant selling price">
+          </div>
+          <div class="form-group">
+            <label for="costPrice">Purchase Price</label>
+            <input required type="number"
+                   min="0"
+                   [(ngModel)]="newVariant.purchasePrice"
+                   class="form-control"
+                   id="costPrice"
+                   placeholder="Enter variant cost price">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addVariant()">Add Variant</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editVariantModal" tabindex="-1" aria-labelledby="editVariantModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editVariantModalLabel">Edit Variant</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="form-group">
+            <label for="variantName">Variant Name</label>
+            <input [(ngModel)]="selectedVariant.name" type="text" class="form-control" id="_variantName" placeholder="Enter variant name">
+          </div>
+          <div class="form-group">
+            <label for="variantDescription">Description</label>
+            <textarea [(ngModel)]="selectedVariant.description" class="form-control" id="_variantDescription" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="stock">Stock</label>
+            <input [(ngModel)]="selectedVariant.stock" min="0" type="number" class="form-control" id="_stock" placeholder="Enter variant stock">
+          </div>
+          <div class="form-group">
+            <label for="sellingPrice">Selling Price</label>
+            <input type="number"
+                   min="0"
+                   [(ngModel)]="selectedVariant.sellingPrice"
+                   class="form-control"
+                   id="_sellingPrice"
+                   placeholder="Enter variant selling price">
+          </div>
+          <div class="form-group">
+            <label for="costPrice">Purchase Price</label>
+            <input type="number"
+                   min="0"
+                   [(ngModel)]="selectedVariant.purchasePrice"
+                   class="form-control"
+                   id="_costPrice"
+                   placeholder="Enter variant cost price">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="applyEditVariant()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>

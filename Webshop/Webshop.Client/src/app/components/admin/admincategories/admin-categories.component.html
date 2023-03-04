@@ -1,0 +1,18 @@
+<div class="d-flex gap-2 mb-4">
+  <input placeholder="Category name" type="text" class="form-control" [(ngModel)]="createCategoryId">
+  <button class="btn btn-primary" (click)="createCategory()">Create</button>
+</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let category of categories">
+    <td>{{ category.id }}</td>
+    <td><button class="btn btn-danger" (click)="deleteCategory(category.id)">Delete</button></td>
+  </tr>
+  </tbody>
+</table>

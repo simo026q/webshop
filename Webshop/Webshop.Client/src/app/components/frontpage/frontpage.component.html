@@ -1,0 +1,36 @@
+<div class="jumbotron text-center" style="background-color: #1a1a1a; color: #fff; padding: 50px;">
+  <h1 class="display-4">Welcome to Günther's Sim Gear</h1>
+  <p class="lead">Your one-stop shop for all your simracing needs</p>
+  <hr class="my-4">
+  <p>We offer a wide selection of high-quality sim racing equipment from top brands such as Logitech, Fanatec, Thrustmaster, and more. Browse our selection and find the perfect gear to take your sim racing experience to the next level.</p>
+  <a class="btn btn-primary btn-lg" [routerLink]="'/products'" role="button">Shop Now</a>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4" style="background-color: #E9E8E8; padding: 50px;">
+      <h3>Sim Racing Wheels</h3>
+      <p>We have a wide selection of sim racing wheels from top brands such as Logitech, Fanatec, and Thrustmaster.</p>
+      <a href="products?category=Wheel%20Base" class="btn btn-primary">View our selection</a>
+    </div>
+    <div class="col-md-4" style="background-color: #E9E8E8; padding: 50px;">
+      <h3>Sim Racing Pedals</h3>
+      <p>Upgrade your sim racing experience with our high-quality pedals from brands such as Fanatec, Heusinkveld, and Bodnar.</p>
+      <a href="products?category=Pedals" class="btn btn-primary">View our selection</a>
+    </div>
+    <div class="col-md-4" style="background-color: #E9E8E8; padding: 50px;">
+      <h3>Sim Racing Cockpits</h3>
+      <p>Get the ultimate sim racing setup with our selection of cockpits from brands such as Next Level Racing and GT Racing.</p>
+      <a href="products?category=Cockpits" class="btn btn-primary">View our selection</a>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" style="background-color: #f2f2f2; padding: 50px;">
+  <div class="d-flex justify-content-center mb-3">
+    <h3>Latest Products</h3>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+    <div *ngFor="let product of products" class="col">
+      <app-product-card *ngIf="product.isActive" [product]="product"></app-product-card>
+    </div>
+  </div>
+</div>

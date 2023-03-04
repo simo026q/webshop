@@ -1,0 +1,15 @@
+<li class="nav-item dropdown" *ngIf="isLoggedIn(); else login">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-person me-1"></i>{{this.userLabel}}
+  </a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" routerLink="/account">Account</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
+  </ul>
+</li>
+<ng-template #login>
+  <li class="nav-item">
+    <a class="btn btn-primary" routerLink="/login">Login</a>
+  </li>
+</ng-template>

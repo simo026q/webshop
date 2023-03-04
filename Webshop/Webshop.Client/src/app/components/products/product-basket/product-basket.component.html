@@ -1,0 +1,7 @@
+<div class="d-flex gap-2">
+  <button [title]="'Add ' + product.name + ' - ' + productVariant?.name + ' to cart'" class="btn btn-primary w-100 position-relative" (click)="addToCart()" [disabled]="!productVariant">
+    Add to Cart
+    <span *ngIf="getCartQuantity() > 0" class="badge bg-secondary" [title]="getCartQuantity() + ' in cart'">{{getCartQuantity()}}</span>
+  </button>
+  <button *ngIf="getCartQuantity() > 0" (click)="removeFromCart()" class="btn btn-secondary"><i class="bi bi-cart-dash"></i><span class="visually-hidden">Remove from cart</span></button>
+</div>
